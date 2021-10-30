@@ -5,7 +5,7 @@
 %define _qtdir %{_libdir}/qt%{major}
 
 Name:		qt6-qtquick3d
-Version:	6.0.1
+Version:	6.2.1
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -20,14 +20,9 @@ BuildRequires:	ninja
 BuildRequires:	%{_lib}Qt%{major}Core-devel
 BuildRequires:	%{_lib}Qt%{major}Gui-devel
 BuildRequires:	%{_lib}Qt%{major}Network-devel
-BuildRequires:	%{_lib}Qt%{major}Qml-devel
-BuildRequires:	%{_lib}Qt%{major}QmlDevTools-devel
-BuildRequires:	%{_lib}Qt%{major}QmlModels-devel
-BuildRequires:	%{_lib}Qt%{major}QmlQuick-devel
-BuildRequires:	%{_lib}Qt%{major}QmlQuickWidgets-devel
+BuildRequires:	qt6-qtdeclarative-devel
 BuildRequires:	%{_lib}Qt%{major}Xml-devel
 BuildRequires:	%{_lib}Qt%{major}Widgets-devel
-BuildRequires:	%{_lib}Qt%{major}QmlDevTools-devel
 BuildRequires:	%{_lib}Qt%{major}Sql-devel
 BuildRequires:	%{_lib}Qt%{major}PrintSupport-devel
 BuildRequires:	%{_lib}Qt%{major}OpenGL-devel
@@ -48,6 +43,48 @@ License:	LGPLv3/GPLv3/GPLv2
 
 %description
 Qt %{major} Quick 3D
+
+%define libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DHelpers Quick3DIblBaker Quick3DParticles Quick3DRuntimeRender Quick3DUtils
+%{expand:%(for lib in %{libs}; do
+	cat <<EOF
+%%global lib${lib} %%mklibname Qt%{major}${lib} %{major}
+%%global dev${lib} %%mklibname -d Qt%{major}${lib}
+%%package -n %%{lib${lib}}
+Summary: Qt %{major} ${lib} library
+Group: System/Libraries
+
+%%description -n %%{lib${lib}}
+Qt %{major} ${lib} library
+
+%%files -n %%{lib${lib}}
+%{_qtdir}/lib/libQt%{major}${lib}.so.*
+%{_libdir}/libQt%{major}${lib}.so.*
+
+%%package -n %%{dev${lib}}
+Summary: Development files for the Qt %{major} ${lib} library
+Requires: %%{lib${lib}} = %{EVRD}
+Group: Development/KDE and Qt
+
+%%description -n %%{dev${lib}}
+Development files for the Qt %{major} ${lib} library
+
+%%files -n %%{dev${lib}}
+%{_qtdir}/lib/libQt%{major}${lib}.so
+%{_libdir}/libQt%{major}${lib}.so
+%{_qtdir}/lib/libQt%{major}${lib}.prl
+%optional %{_qtdir}/include/Qt${lib}
+%optional %{_qtdir}/modules/${lib}.json
+%optional %{_qtdir}/modules/${lib}Private.json
+%optional %{_qtdir}/lib/cmake/Qt%{major}${lib}
+%optional %{_qtdir}/lib/cmake/Qt%{major}${lib}Private
+%optional %{_libdir}/cmake/Qt%{major}${lib}
+%optional %{_libdir}/cmake/Qt%{major}${lib}Private
+%optional %{_qtdir}/lib/metatypes/qt%{major}$(echo ${lib}|tr A-Z a-z)_relwithdebinfo_metatypes.json
+%optional %{_qtdir}/lib/metatypes/qt%{major}$(echo ${lib}|tr A-Z a-z)private_relwithdebinfo_metatypes.json
+%optional %{_qtdir}/mkspecs/modules/qt_lib_$(echo ${lib}|tr A-Z a-z).pri
+%optional %{_qtdir}/mkspecs/modules/qt_lib_$(echo ${lib}|tr A-Z a-z)_private.pri
+EOF
+done)}
 
 %prep
 %autosetup -p1 -n qtquick3d%{!?snapshot:-everywhere-src-%{version}%{?beta:-%{beta}}}
@@ -78,50 +115,21 @@ for i in %{buildroot}%{_qtdir}/lib/cmake/*; do
 	[ "$(basename ${i})" = "Qt6BuildInternals" -o "$(basename ${i})" = "Qt6Qml" ] && continue
 	ln -s ../qt%{major}/lib/cmake/$(basename ${i}) %{buildroot}%{_libdir}/cmake/
 done
+rm %{buildroot}%{_libdir}/cmake/Qt6
 
 %files
-%{_libdir}/cmake/Qt6Quick3D
-%{_libdir}/cmake/Qt6Quick3DAssetImport
-%{_libdir}/cmake/Qt6Quick3DRuntimeRender
-%{_libdir}/cmake/Qt6Quick3DTools
-%{_libdir}/cmake/Qt6Quick3DUtils
-%{_libdir}/libQt6Quick3D.so
-%{_libdir}/libQt6Quick3D.so.*
-%{_libdir}/libQt6Quick3DAssetImport.so
-%{_libdir}/libQt6Quick3DAssetImport.so.*
-%{_libdir}/libQt6Quick3DRuntimeRender.so
-%{_libdir}/libQt6Quick3DRuntimeRender.so.*
-%{_libdir}/libQt6Quick3DUtils.so
-%{_libdir}/libQt6Quick3DUtils.so.*
 %{_qtdir}/bin/balsam
 %{_qtdir}/bin/meshdebug
 %{_qtdir}/bin/shadergen
+%{_qtdir}/bin/balsamui
+%{_qtdir}/bin/instancer
 %{_qtdir}/examples/quick3d
-%{_qtdir}/include/QtQuick3D
-%{_qtdir}/include/QtQuick3DAssetImport
-%{_qtdir}/include/QtQuick3DRuntimeRender
-%{_qtdir}/include/QtQuick3DUtils
+%{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
 %{_qtdir}/lib/cmake/Qt6BuildInternals/StandaloneTests/QtQuick3DTestsConfig.cmake
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/*.cmake
-%{_qtdir}/lib/cmake/Qt6Quick3D
-%{_qtdir}/lib/cmake/Qt6Quick3DAssetImport
-%{_qtdir}/lib/cmake/Qt6Quick3DRuntimeRender
 %{_qtdir}/lib/cmake/Qt6Quick3DTools
-%{_qtdir}/lib/cmake/Qt6Quick3DUtils
-%{_qtdir}/lib/libQt6Quick3D.prl
-%{_qtdir}/lib/libQt6Quick3D.so
-%{_qtdir}/lib/libQt6Quick3D.so.*
-%{_qtdir}/lib/libQt6Quick3DAssetImport.prl
-%{_qtdir}/lib/libQt6Quick3DAssetImport.so
-%{_qtdir}/lib/libQt6Quick3DAssetImport.so.*
-%{_qtdir}/lib/libQt6Quick3DRuntimeRender.prl
-%{_qtdir}/lib/libQt6Quick3DRuntimeRender.so
-%{_qtdir}/lib/libQt6Quick3DRuntimeRender.so.*
-%{_qtdir}/lib/libQt6Quick3DUtils.prl
-%{_qtdir}/lib/libQt6Quick3DUtils.so
-%{_qtdir}/lib/libQt6Quick3DUtils.so.*
 %{_qtdir}/lib/metatypes/*.json
-%{_qtdir}/mkspecs/modules/*.pri
-%{_qtdir}/modules/*.json
 %{_qtdir}/plugins/assetimporters
 %{_qtdir}/qml/QtQuick3D
+%{_libdir}/cmake/Qt6Quick3DTools
+
