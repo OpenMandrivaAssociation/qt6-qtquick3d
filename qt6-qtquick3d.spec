@@ -121,7 +121,6 @@ rm %{buildroot}%{_libdir}/cmake/Qt6
 %{_qtdir}/bin/balsam
 %{_qtdir}/bin/meshdebug
 %{_qtdir}/bin/shadergen
-%{_qtdir}/bin/balsamui
 %{_qtdir}/bin/instancer
 %{_qtdir}/examples/quick3d
 %{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
