@@ -5,7 +5,7 @@
 %define _qtdir %{_libdir}/qt%{major}
 
 Name:		qt6-qtquick3d
-Version:	6.2.2
+Version:	6.3.0
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -93,7 +93,8 @@ done)}
 %cmake -G Ninja \
 	-DCMAKE_INSTALL_PREFIX=%{_qtdir} \
 	-DQT_BUILD_EXAMPLES:BOOL=ON \
-	-DQT_WILL_INSTALL:BOOL=ON
+	-DQT_WILL_INSTALL:BOOL=ON \
+	-DQT_MKSPECS_DIR:FILEPATH=%{_qtdir}/mkspecs
 
 %build
 export LD_LIBRARY_PATH="$(pwd)/build/lib:${LD_LIBRARY_PATH}"
