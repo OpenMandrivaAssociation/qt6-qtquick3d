@@ -1,8 +1,4 @@
 %define beta beta3
-#define snapshot 20200627
-%define major 6
-
-%define _qtdir %{_libdir}/qt%{major}
 
 Name:		qt6-qtquick3d
 Version:	6.4.0
@@ -15,18 +11,27 @@ Source:		http://download.qt-project.org/%{?beta:development}%{!?beta:official}_r
 %endif
 Patch0:		qtquick3d-c++20.patch
 Group:		System/Libraries
-Summary:	Qt %{major} Quick 3D
+Summary:	Qt %{qtmajor} 3D Library
 BuildRequires:	cmake
 BuildRequires:	ninja
-BuildRequires:	%{_lib}Qt%{major}Core-devel
-BuildRequires:	%{_lib}Qt%{major}Gui-devel
-BuildRequires:	%{_lib}Qt%{major}Network-devel
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6DBus)
+BuildRequires:	cmake(Qt6Network)
+BuildRequires:	cmake(Qt6Widgets)
+BuildRequires:	cmake(Qt6Sql)
+BuildRequires:	cmake(Qt6Xml)
 BuildRequires:	cmake(Qt6Qml)
 BuildRequires:	cmake(Qt6QmlCore)
-BuildRequires:	cmake(Qt6QmlLocalStorage)
 BuildRequires:	cmake(Qt6QmlModels)
+BuildRequires:	cmake(Qt6QmlLocalStorage)
 BuildRequires:	cmake(Qt6QmlWorkerScript)
 BuildRequires:	cmake(Qt6QmlXmlListModel)
+BuildRequires:	cmake(Qt6OpenGL)
+BuildRequires:	cmake(Qt6OpenGLWidgets)
+BuildRequires:	cmake(Qt6Concurrent)
+BuildRequires:	cmake(Qt6ShaderTools)
+BuildRequires:	cmake(Qt6Quick)
 BuildRequires:	cmake(Qt6QuickControls2)
 BuildRequires:	cmake(Qt6QuickControls2Impl)
 BuildRequires:	cmake(Qt6QuickDialogs2)
@@ -37,69 +42,123 @@ BuildRequires:	cmake(Qt6QuickTemplates2)
 BuildRequires:	cmake(Qt6QuickTest)
 BuildRequires:	cmake(Qt6QuickWidgets)
 BuildRequires:	cmake(Qt6QuickTimeline)
-BuildRequires:	cmake(Qt6Quick)
 BuildRequires:	cmake(Qt6Concurrent)
-BuildRequires:	%{_lib}Qt%{major}Xml-devel
-BuildRequires:	%{_lib}Qt%{major}Widgets-devel
-BuildRequires:	%{_lib}Qt%{major}Sql-devel
-BuildRequires:	%{_lib}Qt%{major}PrintSupport-devel
-BuildRequires:	%{_lib}Qt%{major}OpenGL-devel
-BuildRequires:	%{_lib}Qt%{major}OpenGLWidgets-devel
-BuildRequires:	%{_lib}Qt%{major}DBus-devel
-BuildRequires:	qt%{major}-cmake
-BuildRequires:	qt%{major}-qtdeclarative
+BuildRequires:	cmake(Qt6PrintSupport)
+BuildRequires:	qt6-qtdeclarative
 BuildRequires:	cmake(Qt6ShaderTools) >= %{version}-0
+
+BuildRequires:	qt6-cmake
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	cmake(OpenGL)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(xkbcommon)
 BuildRequires:	pkgconfig(vulkan)
-BuildRequires:	cmake(LLVM)
-BuildRequires:	cmake(Clang)
-# Not really required, but referenced by LLVMExports.cmake
-# (and then required because of the integrity check)
-BuildRequires:	%{_lib}gpuruntime
 License:	LGPLv3/GPLv3/GPLv2
 
 %description
-Qt %{major} Quick 3D
+Qt %{qtmajor} 3D library
 
-%define extra_devel_files_Quick3D \
+%global extra_files_Quick3D \
+%dir %{_qtdir}/qml/QtQuick3D \
+%{_qtdir}/qml/QtQuick3D/qmldir \
+%{_qtdir}/qml/QtQuick3D/plugins.qmltypes \
+%{_qtdir}/qml/QtQuick3D/libqquick3dplugin.so \
+%{_qtdir}/qml/QtQuick3D/designer \
+%{_qtdir}/bin/balsam \
+%{_qtdir}/bin/balsamui \
+%{_qtdir}/bin/instancer \
+%{_qtdir}/bin/materialeditor \
+%{_qtdir}/bin/meshdebug \
+%{_qtdir}/bin/shadergen \
+%{_qtdir}/bin/shapegen
+
+%global extra_devel_files_Quick3D \
+%{_qtdir}/lib/libQt6BundledEmbree.a \
+%{_qtdir}/lib/cmake/Qt6BundledEmbree/Qt6BundledEmbree*.cmake \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qquick3dplugin*.cmake \
 %{_qtdir}/lib/cmake/Qt6/FindWrapBundledEmbreeConfigExtra.cmake \
-%{_qtdir}/lib/cmake/Qt6BundledEmbree \
-%{_qtdir}/lib/libQt6BundledEmbree.a
+%{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
 
-%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DHelpers Quick3DIblBaker Quick3DParticles Quick3DRuntimeRender Quick3DUtils Quick3DGlslParser Quick3DParticleEffects
+%global extra_files_Quick3DAssetImport \
+%dir %{_qtdir}/plugins/assetimporters \
+%{_qtdir}/plugins/assetimporters/libassimp.so
+
+%global extra_devel_files_Quick3DAssetImport \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dassetutilsplugin*.cmake
+
+%global extra_files_Quick3DAssetUtils \
+%dir %{_qtdir}/qml/QtQuick3D/AssetUtils \
+%{_qtdir}/qml/QtQuick3D/AssetUtils/libqtquick3dassetutilsplugin.so \
+%{_qtdir}/qml/QtQuick3D/AssetUtils/plugins.qmltypes \
+%{_qtdir}/qml/QtQuick3D/AssetUtils/qmldir \
+%{_qtdir}/qml/QtQuick3D/AssetUtils/designer
+
+%global extra_files_Quick3DEffects \
+%dir %{_qtdir}/qml/QtQuick3D/Effects \
+%{_qtdir}/qml/QtQuick3D/Effects/*.qml \
+%{_qtdir}/qml/QtQuick3D/Effects/libqtquick3deffectplugin.so \
+%{_qtdir}/qml/QtQuick3D/Effects/qmldir \
+%{_qtdir}/qml/QtQuick3D/Effects/Quick3DEffects.qmltypes \
+%{_qtdir}/qml/QtQuick3D/Effects/designer
+
+%global extra_devel_files_Quick3DEffects \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3deffectplugin*.cmake
+
+%global extra_files_Quick3DHelpers \
+%dir %{_qtdir}/qml/QtQuick3D/Helpers \
+%{_qtdir}/qml/QtQuick3D/Helpers/libqtquick3dhelpersplugin.so \
+%{_qtdir}/qml/QtQuick3D/Helpers/meshes/axisGrid.mesh \
+%{_qtdir}/qml/QtQuick3D/Helpers/plugins.qmltypes \
+%{_qtdir}/qml/QtQuick3D/Helpers/qmldir \
+%{_qtdir}/qml/QtQuick3D/Helpers/*.qml \
+%{_qtdir}/qml/QtQuick3D/Helpers/designer
+
+%global extra_devel_files_Quick3DHelpers \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dhelpersplugin*.cmake
+
+%global extra_files_Quick3DParticleEffects \
+%dir %{_qtdir}/qml/QtQuick3D/ParticleEffects \
+%{_qtdir}/qml/QtQuick3D/ParticleEffects/qmldir \
+%{_qtdir}/qml/QtQuick3D/ParticleEffects/Quick3DParticleEffects.qmltypes \
+%{_qtdir}/qml/QtQuick3D/ParticleEffects/libqtquick3dparticleeffectsplugin.so \
+%{_qtdir}/qml/QtQuick3D/ParticleEffects/designer
+
+%global extra_devel_files_Quick3DParticleEffects \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dparticleeffectsplugin*.cmake
+
+%global extra_files_Quick3DParticles \
+%dir %{_qtdir}/qml/QtQuick3D/Particles3D \
+%{_qtdir}/qml/QtQuick3D/Particles3D/qmldir \
+%{_qtdir}/qml/QtQuick3D/Particles3D/plugins.qmltypes \
+%{_qtdir}/qml/QtQuick3D/Particles3D/libqtquick3dparticles3dplugin.so \
+%{_qtdir}/qml/QtQuick3D/Particles3D/designer
+
+%global extra_devel_files_Quick3DParticles \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dparticles3dplugin*.cmake
+
+%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils
+
+%package examples
+Summary:	Example code for the Qt 6 3D module
+Group:		Documentation
+
+%description examples
+Example code for the Qt 6 3D module
 
 %prep
 %autosetup -p1 -n qtquick3d%{!?snapshot:-everywhere-src-%{version}%{?beta:-%{beta}}}
-# FIXME why are OpenGL lib paths autodetected incorrectly, preferring
-# /usr/lib over /usr/lib64 even on 64-bit boxes?
 %cmake -G Ninja \
 	-DCMAKE_INSTALL_PREFIX=%{_qtdir} \
+	-DQT_MKSPECS_DIR:FILEPATH=%{_qtdir}/mkspecs \
 	-DQT_BUILD_EXAMPLES:BOOL=ON \
-	-DQT_WILL_INSTALL:BOOL=ON \
-	-DQT_MKSPECS_DIR:FILEPATH=%{_qtdir}/mkspecs
+	-DQT_WILL_INSTALL:BOOL=ON
 
 %build
-#export LD_LIBRARY_PATH="$(pwd)/build/lib:${LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="$(pwd)/build/lib:${LD_LIBRARY_PATH}"
 %ninja_build -C build
 
 %install
-#export LD_LIBRARY_PATH="$(pwd)/build/lib:${LD_LIBRARY_PATH}"
 %ninja_install -C build
 
-%files
-%{_qtdir}/bin/balsam
-%{_qtdir}/bin/balsamui
-%{_qtdir}/bin/materialeditor
-%{_qtdir}/bin/meshdebug
-%{_qtdir}/bin/shadergen
-%{_qtdir}/bin/shapegen
-%{_qtdir}/bin/instancer
-%{_qtdir}/examples/quick3d
-%{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
-%{_qtdir}/lib/cmake/Qt6BuildInternals/StandaloneTests/QtQuick3DTestsConfig.cmake
-%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/*.cmake
-%{_qtdir}/lib/cmake/Qt6Quick3DTools
-%{_qtdir}/lib/metatypes/*.json
-%{_qtdir}/plugins/assetimporters
-%{_qtdir}/qml/QtQuick3D
+%files examples
+%{_qtdir}/examples
