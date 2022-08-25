@@ -2,7 +2,7 @@
 
 Name:		qt6-qtquick3d
 Version:	6.4.0
-Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
+Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}2
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
 Source:		qtquick3d-%{?snapshot:%{snapshot}}%{!?snapshot:%{version}}.tar.zst
@@ -79,6 +79,9 @@ Qt %{qtmajor} 3D library
 %{_qtdir}/lib/cmake/Qt6/FindWrapBundledEmbreeConfigExtra.cmake \
 %{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
 
+%global extra_devel_reqprov_Quick3D \
+Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
+
 %global extra_files_Quick3DAssetImport \
 %dir %{_qtdir}/plugins/assetimporters \
 %{_qtdir}/plugins/assetimporters/libassimp.so
@@ -135,6 +138,9 @@ Qt %{qtmajor} 3D library
 
 %global extra_devel_files_Quick3DParticles \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dparticles3dplugin*.cmake
+
+%global extra_devel_reqprov_Quick3DRuntimeRender \
+Requires: cmake(Qt%{qtmajor}Quick3DUtils)
 
 %qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils
 
