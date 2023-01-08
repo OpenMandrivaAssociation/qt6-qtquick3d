@@ -1,7 +1,7 @@
 #define beta rc
 
 Name:		qt6-qtquick3d
-Version:	6.4.1
+Version:	6.4.2
 Release:	%{?beta:0.%{beta}.1}%{?snapshot:1.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -9,7 +9,6 @@ Source:		qtquick3d-%{?snapshot:%{snapshot}}%{!?snapshot:%{version}}.tar.zst
 %else
 Source:		http://download.qt-project.org/%{?beta:development}%{!?beta:official}_releases/qt/%(echo %{version}|cut -d. -f1-2)/%{version}%{?beta:-%{beta}}/submodules/qtquick3d-everywhere-src-%{version}%{?beta:-%{beta}}.tar.xz
 %endif
-Patch0:		qtquick3d-c++20.patch
 Group:		System/Libraries
 Summary:	Qt %{qtmajor} 3D Library
 BuildRequires:	cmake
@@ -141,6 +140,18 @@ Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
 
 %global extra_devel_reqprov_Quick3DRuntimeRender \
 Requires: cmake(Qt%{qtmajor}Quick3DUtils)
+
+%package profiler
+Summary: Profiler for QtQuick 3D
+Group: Development/Tools
+
+%description profiler
+Profiler for QtQuick 3D
+
+%files profiler
+%{_qtdir}/lib/cmake/Qt6Qml/Qt6QQuick3DProfilerAdapter*
+%{_qtdir}/plugins/qmltooling/libqmldbg_quick3dprofiler.so
+
 
 %qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils
 
