@@ -1,7 +1,7 @@
 #define beta rc
 
 Name:		qt6-qtquick3d
-Version:	6.4.2
+Version:	6.5.0
 Release:	%{?beta:0.%{beta}.1}%{?snapshot:1.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -64,6 +64,7 @@ Qt %{qtmajor} 3D library
 %{_qtdir}/qml/QtQuick3D/plugins.qmltypes \
 %{_qtdir}/qml/QtQuick3D/libqquick3dplugin.so \
 %{_qtdir}/qml/QtQuick3D/designer \
+%{_qtdir}/qml/QtQuick3D/MaterialEditor \
 %{_qtdir}/bin/balsam \
 %{_qtdir}/bin/balsamui \
 %{_qtdir}/bin/instancer \
@@ -114,7 +115,8 @@ Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
 %{_qtdir}/qml/QtQuick3D/Helpers/plugins.qmltypes \
 %{_qtdir}/qml/QtQuick3D/Helpers/qmldir \
 %{_qtdir}/qml/QtQuick3D/Helpers/*.qml \
-%{_qtdir}/qml/QtQuick3D/Helpers/designer
+%{_qtdir}/qml/QtQuick3D/Helpers/designer \
+%{_qtdir}/qml/QtQuick3D/Helpers/impl
 
 %global extra_devel_files_Quick3DHelpers \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dhelpersplugin*.cmake
@@ -142,6 +144,9 @@ Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
 %global extra_devel_reqprov_Quick3DRuntimeRender \
 Requires: cmake(Qt%{qtmajor}Quick3DUtils)
 
+%global extra_devel_files_Quick3DHelpersImpl \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dhelpersimplplugin*.cmake
+
 %package profiler
 Summary: Profiler for QtQuick 3D
 Group: Development/Tools
@@ -153,8 +158,7 @@ Profiler for QtQuick 3D
 %{_qtdir}/lib/cmake/Qt6Qml/Qt6QQuick3DProfilerAdapter*
 %{_qtdir}/plugins/qmltooling/libqmldbg_quick3dprofiler.so
 
-
-%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils
+%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils Quick3DHelpersImpl
 
 %package examples
 Summary:	Example code for the Qt 6 3D module
