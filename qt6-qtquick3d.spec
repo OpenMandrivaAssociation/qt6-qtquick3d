@@ -1,4 +1,4 @@
-%define beta beta4
+%define beta rc
 
 Name:		qt6-qtquick3d
 Version:	6.6.0
