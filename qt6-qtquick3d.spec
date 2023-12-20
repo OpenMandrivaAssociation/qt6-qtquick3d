@@ -1,7 +1,7 @@
-#define beta rc
+%define beta beta1
 
 Name:		qt6-qtquick3d
-Version:	6.6.1
+Version:	6.7.0
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -60,8 +60,8 @@ Qt %{qtmajor} 3D library
 
 %global extra_files_Quick3D \
 %dir %{_qtdir}/qml/QtQuick3D \
+%{_qtdir}/qml/QtQuick3D/Quick3D.qmltypes \
 %{_qtdir}/qml/QtQuick3D/qmldir \
-%{_qtdir}/qml/QtQuick3D/plugins.qmltypes \
 %{_qtdir}/qml/QtQuick3D/libqquick3dplugin.so \
 %{_qtdir}/qml/QtQuick3D/designer \
 %{_qtdir}/qml/QtQuick3D/MaterialEditor \
