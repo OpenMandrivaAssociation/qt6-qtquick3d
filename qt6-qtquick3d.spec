@@ -1,7 +1,7 @@
 #define beta rc2
 
 Name:		qt6-qtquick3d
-Version:	6.7.2
+Version:	6.7.3
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -54,6 +54,9 @@ BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(xkbcommon)
 BuildRequires:	pkgconfig(vulkan)
 License:	LGPLv3/GPLv3/GPLv2
+
+# How can this even compile upstream without the patch???
+Patch100:	https://github.com/RenderKit/embree/commit/cda4cf1919bb2a748e78915fbd6e421a1056638d.patch
 
 %description
 Qt %{qtmajor} 3D library
@@ -168,7 +171,11 @@ Group:		Documentation
 Example code for the Qt 6 3D module
 
 %prep
-%autosetup -p1 -n qtquick3d%{!?snapshot:-everywhere-src-%{version}%{?beta:-%{beta}}}
+%setup -q -n qtquick3d%{!?snapshot:-everywhere-src-%{version}%{?beta:-%{beta}}}
+%autopatch -p1 -M 99
+cd src/3rdparty/embree
+%autopatch -p1 -m 100
+cd -
 %cmake -G Ninja \
 	-DCMAKE_INSTALL_PREFIX=%{_qtdir} \
 	-DQT_MKSPECS_DIR:FILEPATH=%{_qtdir}/mkspecs \
