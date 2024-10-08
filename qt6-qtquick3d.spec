@@ -1,7 +1,7 @@
 #define beta rc2
 
 Name:		qt6-qtquick3d
-Version:	6.7.3
+Version:	6.8.0
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -150,6 +150,15 @@ Requires: cmake(Qt%{qtmajor}Quick3DUtils)
 %global extra_devel_files_Quick3DHelpersImpl \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dhelpersimplplugin*.cmake
 
+%global extra_files_Quick3DXr \
+%{_qtdir}/qml/QtQuick3D/Xr
+
+%global extra_devel_files_Quick3DXr \
+%{_qtdir}/lib/cmake/Qt6/FindWrapBundledOpenXRConfigExtra.cmake \
+%{_qtdir}/lib/cmake/Qt6/FindWrapOpenXR.cmake \
+%{_qtdir}/lib/cmake/Qt6/FindWrapSystemOpenXR.cmake \
+%{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6Quick3DXrplugin*
+
 %package profiler
 Summary: Profiler for QtQuick 3D
 Group: Development/Tools
@@ -161,7 +170,7 @@ Profiler for QtQuick 3D
 %{_qtdir}/lib/cmake/Qt6Qml/Qt6QQuick3DProfilerAdapter*
 %{_qtdir}/plugins/qmltooling/libqmldbg_quick3dprofiler.so
 
-%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils Quick3DHelpersImpl
+%qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils Quick3DHelpersImpl Quick3DXr
 
 %package examples
 Summary:	Example code for the Qt 6 3D module
