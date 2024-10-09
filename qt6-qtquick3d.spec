@@ -50,6 +50,7 @@ BuildRequires:	cmake(Qt6ShaderTools) >= %{version}-0
 BuildRequires:	qt6-cmake
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	cmake(OpenGL)
+BuildRequires:	cmake(OpenXR)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(xkbcommon)
 BuildRequires:	pkgconfig(vulkan)
