@@ -1,7 +1,7 @@
 #define beta rc2
 
 Name:		qt6-qtquick3d
-Version:	6.8.0
+Version:	6.8.1
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -82,7 +82,8 @@ Qt %{qtmajor} 3D library
 %{_qtdir}/lib/cmake/Qt6BundledEmbree/Qt6BundledEmbree*.cmake \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qquick3dplugin*.cmake \
 %{_qtdir}/lib/cmake/Qt6/FindWrapBundledEmbreeConfigExtra.cmake \
-%{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake
+%{_qtdir}/lib/cmake/Qt6/FindWrapQuick3DAssimp.cmake \
+%{_qtdir}/sbom/*
 
 %global extra_devel_reqprov_Quick3D \
 Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
