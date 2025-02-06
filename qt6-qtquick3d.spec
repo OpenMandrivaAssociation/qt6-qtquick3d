@@ -1,7 +1,7 @@
 #define beta rc2
 
 Name:		qt6-qtquick3d
-Version:	6.8.1
+Version:	6.8.2
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -55,9 +55,6 @@ BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(xkbcommon)
 BuildRequires:	pkgconfig(vulkan)
 License:	LGPLv3/GPLv3/GPLv2
-
-# How can this even compile upstream without the patch???
-Patch100:	https://github.com/RenderKit/embree/commit/cda4cf1919bb2a748e78915fbd6e421a1056638d.patch
 
 %description
 Qt %{qtmajor} 3D library
