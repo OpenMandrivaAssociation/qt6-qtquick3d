@@ -1,7 +1,7 @@
-#define beta rc
+%define beta beta2
 
 Name:		qt6-qtquick3d
-Version:	6.9.1
+Version:	6.10.0
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -69,10 +69,13 @@ Qt %{qtmajor} 3D library
 %{_qtdir}/bin/balsam \
 %{_qtdir}/bin/balsamui \
 %{_qtdir}/bin/instancer \
+%{_qtdir}/bin/lightmapviewer \
 %{_qtdir}/bin/materialeditor \
 %{_qtdir}/bin/meshdebug \
 %{_qtdir}/bin/shadergen \
-%{_qtdir}/bin/shapegen
+%{_qtdir}/bin/shapegen \
+%{_qtdir}/qml/QtQuick3D/LightmapperOutputWindow.qml \
+%{_qtdir}/qml/QtQuick3D/lightmapviewer
 
 %global extra_devel_files_Quick3D \
 %{_qtdir}/lib/libQt6BundledEmbree.a \
