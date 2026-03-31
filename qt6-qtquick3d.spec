@@ -1,7 +1,7 @@
 #define beta rc
 
 Name:		qt6-qtquick3d
-Version:	6.10.2
+Version:	6.11.0
 Release:	%{?beta:0.%{beta}.}%{?snapshot:0.%{snapshot}.}1
 %if 0%{?snapshot:1}
 # "git archive"-d from "dev" branch of git://code.qt.io/qt/qtbase.git
@@ -73,6 +73,7 @@ Qt %{qtmajor} 3D library
 %{_qtdir}/bin/lightmapviewer \
 %{_qtdir}/bin/materialeditor \
 %{_qtdir}/bin/meshdebug \
+%{_qtdir}/bin/particleshadergen \
 %{_qtdir}/bin/shadergen \
 %{_qtdir}/bin/shapegen \
 %{_qtdir}/qml/QtQuick3D/LightmapperOutputWindow.qml \
