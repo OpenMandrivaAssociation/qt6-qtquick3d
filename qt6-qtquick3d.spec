@@ -115,6 +115,9 @@ Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
 %global extra_devel_files_Quick3DEffects \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3deffectplugin*.cmake
 
+%global extra_devel_reqprov_Quick3DEffects \
+Provides: cmake(Qt6Quick3DEffectsPrivate) = %{EVRD}
+
 %global extra_files_Quick3DHelpers \
 %dir %{_qtdir}/qml/QtQuick3D/Helpers \
 %{_qtdir}/qml/QtQuick3D/Helpers/libqtquick3dhelpersplugin.so \
@@ -137,6 +140,9 @@ Requires: cmake(Qt%{qtmajor}Quick3DRuntimeRender)
 
 %global extra_devel_files_Quick3DParticleEffects \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6qtquick3dparticleeffectsplugin*.cmake
+
+%global extra_devel_reqprov_Quick3DParticleEffects \
+Provides: cmake(Qt6Quick3DParticleEffectsPrivate) = %{EVRD}
 
 %global extra_files_Quick3DParticles \
 %dir %{_qtdir}/qml/QtQuick3D/Particles3D \
@@ -162,6 +168,9 @@ Requires: cmake(Qt%{qtmajor}Quick3DUtils)
 %{_qtdir}/lib/cmake/Qt6/FindWrapOpenXR.cmake \
 %{_qtdir}/lib/cmake/Qt6/FindWrapSystemOpenXR.cmake \
 %{_qtdir}/lib/cmake/Qt6Qml/QmlPlugins/Qt6Quick3DXrplugin*
+
+%global extra_devel_reqprov_Quick3DGlslParser \
+Provides: cmake(Qt6Quick3DGlslParserPrivatePrivate) = %{EVRD}
 
 %package profiler
 Summary: Profiler for QtQuick 3D
