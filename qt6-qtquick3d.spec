@@ -199,6 +199,7 @@ cd src/3rdparty/embree
 %autopatch -p1 -m 100
 cd -
 %cmake -G Ninja \
+	-DQT_BUILD_TESTS:BOOL=OFF \
 	-DCMAKE_INSTALL_PREFIX=%{_qtdir} \
 	-DQT_MKSPECS_DIR:FILEPATH=%{_qtdir}/mkspecs \
 	-DQT_BUILD_EXAMPLES:BOOL=ON \
