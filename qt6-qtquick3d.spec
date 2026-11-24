@@ -185,6 +185,12 @@ Profiler for QtQuick 3D
 
 %qt6libs Quick3D Quick3DAssetImport Quick3DAssetUtils Quick3DEffects Quick3DGlslParser Quick3DHelpers Quick3DIblBaker Quick3DParticleEffects Quick3DParticles Quick3DRuntimeRender Quick3DUtils Quick3DHelpersImpl Quick3DXr
 
+# The volumetric fog example imports VFExtension, a helper module compiled
+# next to that example. The helper is not installed, so nothing provides
+# qml(VFExtension). The example's own modules are installed and provide
+# themselves.
+%global __requires_exclude qml\\(VFExtension\\)
+
 %package examples
 Summary:	Example code for the Qt 6 3D module
 Group:		Documentation
